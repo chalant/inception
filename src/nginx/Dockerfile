@@ -1,9 +1,19 @@
-FROM alpine:3.19-stable
+FROM		alpine:3.19-stable
 
-ENV	
+RUN			apk update && apk upgrade && apk add \
+			openssl \
+			nginx \
+			curl \
+			vim \
+			sudo
 
-RUN
+RUN			rm -f /etc/nginx/nginx.conf
 
-COPY ./usr/bin/nginx
+COPY		./config/nginx.conf /etc/nginx/nginx.conf
+COPY		scripts/setup_nginx.sh /setup_nginx.sh
 
-CMD	
+RUN			chmod -R +x /setup_nginx.sh
+
+EXPOSE		443
+
+ENTRYPOINT	["sh", "setup_nginx.sh"]
