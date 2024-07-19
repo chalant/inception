@@ -1,6 +1,11 @@
+ROOT = /home/ychalant/data
+
 all: build up
 
 build:
+	mkdir -p $(ROOT)
+	mkdir -p $(ROOT)/mariadb
+	mkdir -p $(ROOT)/wordpress
 	docker compose -f srcs/docker-compose.yaml build
 
 up:

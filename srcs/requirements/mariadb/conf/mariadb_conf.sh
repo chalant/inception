@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-#if [ "$1" = 'mysqld' ]; then
 if [ ! -d /var/lib/mysql/mysql ]; then
 	echo 'Initializing database'
 	mysql_install_db --user=$MYSQL_USER --datadir=/var/lib/mysql > /dev/null
@@ -48,8 +47,5 @@ if [ ! -d /var/lib/mysql/mysql ]; then
 	kill "$pid"
 	wait "$pid"
 fi
-#fi
-
-#sed -i "skip-networking" /etc/my.cnf.d/mariadb-server.cnf
 
 exec mysqld --user=$MYSQL_USER
