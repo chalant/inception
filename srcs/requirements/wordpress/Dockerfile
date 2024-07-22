@@ -20,7 +20,11 @@ RUN apk update && apk upgrade && apk add --no-cache \
 	php81-iconv \
 	php81-pdo_mysql \
 	php81-pecl-redis \
-	php81-pecl-memcached \
+	php81-tokenizer \
+	php81-bcmath \
+	php81-ctype \
+	php81-common \
+	php81-redis \
 	mariadb-client \
     curl \
     tar \

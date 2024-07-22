@@ -1,7 +1,10 @@
 version: '3.8'
 
 services:
-  nginx: 
+  nginx:
+    container_name: nginx
+    image:
+      nginx
     build:
       context: requirements/nginx/
       dockerfile: Dockerfile
@@ -17,9 +20,12 @@ services:
       - wordpress
   
   mariadb:
+    container_name: mariadb
     build:
       context: requirements/mariadb/
       dockerfile: Dockerfile
+    image:
+      mariadb
     # ports:
     #   - "3306:3306"
     environment:
@@ -34,24 +40,71 @@ services:
       - inception
   
   wordpress:
+    container_name: wordpress
     build:
       context: requirements/wordpress/
       dockerfile: Dockerfile
+    image:
+      wordpress
     environment:
-        USER: ${USER}
+        INCEPTION_USER: ${INCEPTION_USER}
         MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    # ports:
-    #   - "9000:9000"
+        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+        ADMIN_EMAIL: ${ADMIN_EMAIL}
+        DOMAIN_NAME: ${DOMAIN_NAME}
+        WORDPRESS_TILE: ${WORDPRESS_TILE}
     depends_on:
       - mariadb
+      - redis
     volumes:
       - wordpress:/var/www/wordpress
     networks:
       - inception
+
+  redis:
+    container_name: redis
+    build:
+      context: bonus/redis/
+      dockerfile: Dockerfile
+    image: redis
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception
+
+  ftp-server:
+    container_name: ftp-server
+    build:
+      context: bonus/ftp_server/
+      dockerfile: Dockerfile
+    image: ftp-server
+    environment:
+      FTP_USER: ${FTP_USER}
+      FTP_PASSWORD: ${FTP_PASSWORD}
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    volumes:
+      - wordpress:/var/www/wordpress
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+
+  # adminer:
+  #   container_name: adminer
+  #   build:
+  #     context: bonus/adminer/
+  #     dockerfile: Dockerfile
+  #   image: adminer
+  #   volumes:
+  #     - db:/var/lib/mysql
+  #   networks:
+  #     - inception
 
 volumes:
   wordpress:
