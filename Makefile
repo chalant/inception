@@ -18,8 +18,9 @@ upd:
 down:
 	docker compose -f srcs/docker-compose.yaml down
 
-clean: down
-	rm -rf $ROOT/data
+clean:
+	rm -rf $(ROOT)
+	docker compose -f srcs/docker-compose.yaml down
 	docker compose -f srcs/docker-compose.yaml rm -f
 
 fclean: clean

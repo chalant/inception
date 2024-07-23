@@ -65,8 +65,8 @@ fi
 chmod -R 755 /var/www/wordpress
 
 # debug mode for wordpress
-# /usr/local/bin/wp-cli.phar config set WP_DEBUG_LOG true --allow-root --path='/var/www/wordpress'
-# /usr/local/bin/wp-cli.phar config set WP_DEBUG true --allow-root --path='/var/www/wordpress'
-# /usr/local/bin/wp-cli.phar config set SCRIPT_DEBUG true --allow-root --path='/var/www/wordpress'
+/usr/local/bin/wp-cli.phar config set WP_DEBUG_LOG true --allow-root --path='/var/www/wordpress'
+/usr/local/bin/wp-cli.phar config set WP_DEBUG true --allow-root --path='/var/www/wordpress'
+/usr/local/bin/wp-cli.phar config set SCRIPT_DEBUG true --allow-root --path='/var/www/wordpress'
 
 exec /usr/sbin/php-fpm81 -F
