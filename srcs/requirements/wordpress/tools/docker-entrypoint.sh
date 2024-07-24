@@ -4,18 +4,6 @@ MAX_RETRIES=10
 
 retries=0
 
-# download and install wordpress if it does not exist...
-if [ ! -d "/var/www/wordpress" ]; then
-	echo "Installing wordpress..."
-	cd /var/www && curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz" \
-		&& echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
-		&& tar -xzf wordpress.tar.gz \
-		&& addgroup -S $GROUP && adduser -S $USER -G $GROUP \
-		&& rm wordpress.tar.gz
-	chown -R $USER:$GROUP /var/www/wordpress
-fi
-
-
 echo "Waiting for MariaDB to be ready..."
 while ! nc -z mariadb 3306; do
 	retries=$((retries + 1))
