@@ -129,6 +129,17 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+  
+  static-website:
+    container_name: static-website
+    build:
+      context: bonus/static-website/
+      dockerfile: Dockerfile
+    image: static-website
+    networks:
+      - inception
+    # volumes:
+    #   - wordpress:/var/www/wordpress
 
 volumes:
   wordpress:
