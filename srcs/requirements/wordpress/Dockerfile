@@ -32,11 +32,11 @@ RUN apk update && apk upgrade && apk add --no-cache \
 
 
 # Download and verify WordPress
-RUN cd /var/www && curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz" \
-    && echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
-	&& tar -xzf wordpress.tar.gz \
-	&& addgroup -S $GROUP && adduser -S $USER -G $GROUP \
-	&& rm wordpress.tar.gz
+# RUN cd /var/www && curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz" \
+#     && echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - \
+# 	&& tar -xzf wordpress.tar.gz \
+RUN addgroup -S $GROUP && adduser -S $USER -G $GROUP
+# 	&& rm wordpress.tar.gz
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
@@ -44,7 +44,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 	&& ln -s /usr/bin/php81 /usr/bin/php
 
 
-RUN chown -R inception:inception /var/www/wordpress
+# RUN chown -R inception:inception /var/www/wordpress
 
 COPY conf/php-fpm.conf /etc/php81/php-fpm.conf
 COPY conf/docker-entrypoint.sh /usr/local/bin/wordpress-launch.sh
