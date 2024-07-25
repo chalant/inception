@@ -47,7 +47,7 @@ services:
     environment:
         USER: ${USER}
         GROUP: ${GROUP}
-        INCEPTION_USER: ${INCEPTION_USER}
+        WP_ADMIN_USER: ${WP_ADMIN_USERNAME}
         MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
         MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -57,6 +57,9 @@ services:
         ADMIN_EMAIL: ${ADMIN_EMAIL}
         DOMAIN_NAME: ${DOMAIN_NAME}
         WORDPRESS_TILE: ${WORDPRESS_TILE}
+        WP_USERNAME: ${WP_USERNAME}
+        WP_USER_MAIL: ${WP_USER_MAIL}
+        WP_USER_PASSWORD: ${WP_USER_PASSWORD}
     depends_on:
       - mariadb
       - redis
@@ -108,7 +111,7 @@ services:
       retries: 5
       start_period: 5s
     depends_on:
-      - mariadb
+      - wordpress
     volumes:
       - wordpress:/var/www/wordpress
     networks:
@@ -138,8 +141,6 @@ services:
     image: static-website
     networks:
       - inception
-    # volumes:
-    #   - wordpress:/var/www/wordpress
 
 volumes:
   wordpress:

@@ -36,22 +36,26 @@ RUN apk add --no-cache \
 	mariadb-client \
     curl \
     less \
-    bash && mkdir -p /var/www/wordpress
+    bash && mkdir -p /var/www
 
 
 # Download and verify WordPress
-RUN cd /var/www/wordpress && curl -L https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php -o adminer.php\
+RUN cd /var/www && curl -L https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php -o adminer.php\
 	# && mv adminer-4.8.1.php /var/www/html/index.php \
-	&& addgroup -S $GROUP && adduser -S $USER -G $GROUP
+	&& addgroup -S $GROUP && adduser -S $USER -G $GROUP \
+	&& echo "Installed Adminer"
 
 RUN mkdir -p /etc/php81/conf.d \
 	&& echo "cgi.fix_pathinfo=0" > /etc/php81/conf.d/00_adminer.ini
 
-RUN chown -R inception:inception /var/www/wordpress && chmod 755 /var/www/wordpress/adminer.php
+RUN chown -R inception:inception /var/www && chmod 755 /var/www/adminer.php
 
 COPY conf/php-fpm.conf /etc/php81/php-fpm.conf
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
+COPY tools/setup_adminer.sh /usr/local/bin/setup_adminer.sh
+
+RUN chmod +x /usr/local/bin/setup_adminer.sh
 
 EXPOSE 9000
 
-CMD ["/usr/sbin/php-fpm81", "-F"]
+ENTRYPOINT [ "/usr/local/bin/setup_adminer.sh" ]

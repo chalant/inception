@@ -19,9 +19,9 @@ down:
 	docker compose -f srcs/docker-compose.yaml down
 
 clean:
-	rm -rf $(ROOT)
 	docker compose -f srcs/docker-compose.yaml down
 	docker compose -f srcs/docker-compose.yaml rm -f
+	rm -rf $(ROOT)
 
 fclean: clean
 	docker system prune -af

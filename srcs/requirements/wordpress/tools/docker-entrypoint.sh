@@ -48,11 +48,13 @@ fi
 
 /usr/local/bin/wp-cli.phar core install --allow-root \
 										--title=$WORDPRESS_TITLE \
-										--admin_user=$INCEPTION_USER \
+										--admin_user=$WP_ADMIN_USER \
 										--admin_password=$ADMIN_PASSWORD \
 										--admin_email=$ADMIN_EMAIL \
 										--url=$DOMAIN_NAME \
 										--path='/var/www/wordpress'
+
+chmod -R 755 /var/www/wordpress
 
 #setup redis
 /usr/local/bin/wp-cli.phar config set WP_REDIS_HOST redis --allow-root --path='/var/www/wordpress'
@@ -62,11 +64,12 @@ fi
 /usr/local/bin/wp-cli.phar plugin install redis-cache --activate --allow-root --path='/var/www/wordpress'
 /usr/local/bin/wp-cli.phar plugin update --all --allow-root --path='/var/www/wordpress'
 /usr/local/bin/wp-cli.phar redis enable --allow-root --path='/var/www/wordpress'
-chmod -R 755 /var/www/wordpress
 
 # debug mode for wordpress
 /usr/local/bin/wp-cli.phar config set WP_DEBUG_LOG true --allow-root --path='/var/www/wordpress'
 /usr/local/bin/wp-cli.phar config set WP_DEBUG true --allow-root --path='/var/www/wordpress'
 /usr/local/bin/wp-cli.phar config set SCRIPT_DEBUG true --allow-root --path='/var/www/wordpress'
+
+/usr/local/bin/wp-cli.phar user create $WP_USERNAME $WP_USER_MAIL --role=editor --user_pass=$WP_USER_PASSWORD --path='/var/www/wordpress'
 
 exec /usr/sbin/php-fpm81 -F
