@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MAX_RETRIES=10
+MAX_RETRIES=60
 
 retries=0
 
