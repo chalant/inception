@@ -2,6 +2,9 @@ ROOT = /home/ychalant/data
 
 all: build up
 
+detached:
+	build upd
+
 build:
 	bash srcs/setup.sh
 	mkdir -p $(ROOT)
