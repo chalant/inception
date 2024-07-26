@@ -16,7 +16,7 @@ services:
       - inception
     depends_on:
       - wordpress
-    restart: on-failure
+    restart: always
   
   mariadb:
     container_name: mariadb
@@ -37,7 +37,7 @@ services:
       - db:/var/lib/mysql
     networks:
       - inception
-    restart: on-failure
+    restart: always
   
   wordpress:
     container_name: wordpress
@@ -69,7 +69,7 @@ services:
       - wordpress:/var/www/wordpress
     networks:
       - inception
-    restart: on-failure
+    restart: always
 
   redis:
     container_name: redis
@@ -81,7 +81,7 @@ services:
       - wordpress:/var/www/wordpress
     networks:
       - inception
-    restart: on-failure
+    restart: always
 
   ftp-server:
     container_name: ftp-server
@@ -101,7 +101,7 @@ services:
       - wordpress
     networks:
       - inception
-    restart: on-failure
+    restart: always
 
   adminer:
     container_name: adminer
@@ -121,7 +121,7 @@ services:
       - wordpress:/var/www/wordpress
     networks:
       - inception
-    restart: on-failure
+    restart: always
   
   cadvisor:
     container_name: cadvisor
@@ -138,7 +138,7 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    restart: on-failure
+    restart: always
   
   static-website:
     container_name: static-website
@@ -148,7 +148,7 @@ services:
     image: static-website
     networks:
       - inception
-    restart: on-failure
+    restart: always
 
 volumes:
   wordpress:
